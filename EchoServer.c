@@ -40,6 +40,10 @@ int main(){
 
 	//5. 클라이언트 요청 처리
 	while(1){
+		char *token;
+		char *str[3];
+		int i = 0;
+
 		len = sizeof(c_addr);
 		printf("클라이언트 접속을 기다리는 중....\n");
 		c_socket = accept(s_socket, (struct sockaddr *)&c_addr, &len);
@@ -59,6 +63,22 @@ int main(){
 				strcpy(buffer, "내 이름은 강혜경이야.");
 		else if(!strncmp(rcvBuffer, "몇 살이야?", strlen("몇 살이야?")))
 				strcpy(buffer, "나는 22살이야.");
+		else if(!strncasecmp(rcvBuffer, "strlen ", 7))
+				sprintf(buffer, "문자열의 길이 : %d", strlen(rcvBuffer)-7);
+		else if(!strncasecmp(rcvBuffer, "strcmp ", 7)){
+				i = 0;
+				token = strtok(rcvBuffer, " ");
+			while(token != NULL){
+					str[i++] = token;
+					token = strtok(NULL, " ");
+			}
+			if(i<3)
+				sprintf(buffer, "문자열 비교를 위해서는 두 문자열이 필요합니다.");
+			else if(!strcmp(str[1], str[2]))
+				sprintf(buffer, "%s %s : 0 입니다.", str[1], str[2]);
+			else
+				sprintf(buffer, "%s %s : 1입니다.", str[1], str[2]);
+			}
 		else
 			strcpy(buffer, "무슨 말인지 모르겠습니다.");
 		
