@@ -79,6 +79,31 @@ int main(){
 				else
 					sprintf(buffer, "%s %s : 다른 문자열 입니다.", str[1], str[2]);
 				}
+			else if(!strncasecmp(rcvBuffer, "readfile ", 9)) {
+				i=0;
+				token = strtok(rcvBuffer, " ");
+				while(token != NULL){
+					str[i++] = token;
+					token = strtok(NULL, " ");
+				}
+				//str[0] = readfile
+				//str[1] = filename
+				if(i<2)
+					sprintf(buffer, "파일명을 입력해주세요.");
+				else{
+					FILE *fp = fopen(str[1], "r");
+					if(fp){
+						char tempStr[BUFSIZE]; //파일내용을 저장할 변수
+						memset(buffer, 0, BUFSIZE); //buffer 초기화
+						while(fgets(tempStr, BUFSIZE, (FILE *)fp)){
+							strcat(buffer, tempStr); //여러 줄의 내용을 하나의 buffer에 저장하기 위해 strcat() 함수
+						}
+						fclose(fp);
+					}else{
+						sprintf(buffer, "해당 파일은 존재하지 않습니다.");
+					}
+				}
+			}
 			else
 				strcpy(buffer, "무슨 말인지 모르겠습니다.");
 		
