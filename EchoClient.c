@@ -1,4 +1,4 @@
-//에코서버 클라이언트 예제 6-1
+//에코서버 클라이언트 예제 6-2
 
 #include <stdio.h>
 #include <netinet/in.h>

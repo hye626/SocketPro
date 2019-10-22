@@ -104,6 +104,17 @@ int main(){
 					}
 				}
 			}
+			else if (!strncasecmp(rcvBuffer, "exec ", 5)) {
+				char *command;
+				token = strtok(rcvBuffer, " "); //exec
+				command = strtok(NULL, "\0"); //exec 뒤에 있는 모든 문자열을 command로 저장
+				printf("command: %s\n", command);
+				int result = system(command); //command가 정상 실행되면 0을 리턴, 그렇지 않으면 0이 아닌 에러코드
+				if(result)
+					sprintf(buffer, "[%s] 명령어가 실패하였습니다.", command);
+				else
+					sprintf(buffer, "[%s] 명령어가 성공하였습니다.", command);
+			}	
 			else
 				strcpy(buffer, "무슨 말인지 모르겠습니다.");
 		
